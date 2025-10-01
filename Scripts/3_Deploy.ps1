@@ -821,7 +821,7 @@ If (-not $isAdmin) {
                     $unattendfile=CreateUnattendFileNoDjoin -ComputerName $Name -AdminPassword $LabConfig.AdminPassword -RunSynchronous $RunSynchronous -TimeZone $TimeZone
                 }
             }elseif($VMConfig.Win2012Djoin -or $VMConfig.Unattend -eq "DjoinCred"){
-                WriteInfoHighlighted "`t Creating Unattend with win2012-ish domain join"
+                WriteInfoHighlighted "`t Creating Unattend with credentials domain join"
                 $unattendfile=CreateUnattendFileWin2012 -ComputerName $Name -AdminPassword $LabConfig.AdminPassword -DomainName $Labconfig.DomainName -RunSynchronous $RunSynchronous -TimeZone $TimeZone
 
             }elseif($VMConfig.Unattend -eq "DjoinBlob" -or -not ($VMConfig.Unattend)){
@@ -839,7 +839,9 @@ If (-not $isAdmin) {
             if ($unattendFile){
                 WriteInfo "`t Adding unattend to VHD"
                 Mount-WindowsImage -Path $mountdir -ImagePath $VHDPath -Index 1
-                Use-WindowsUnattend -Path $mountdir -UnattendPath $unattendFile
+                if ($VMConfig.Unattend -eq "DjoinBlob"){
+                    Use-WindowsUnattend -Path $mountdir -UnattendPath $unattendFile
+                }   
                 #&"$PSScriptRoot\Tools\dism\dism" /mount-image /imagefile:$vhdpath /index:1 /MountDir:$mountdir
                 #&"$PSScriptRoot\Tools\dism\dism" /image:$mountdir /Apply-Unattend:$unattendfile
                 New-item -type directory "$mountdir\Windows\Panther" -ErrorAction Ignore
