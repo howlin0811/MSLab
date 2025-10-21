@@ -62,11 +62,12 @@ Note: Start-BitsTransfer is used because invoke-webrequest is slow for big files
 ```PowerShell
 #ISO
 $WindowsServerEvalURL="https://software-static.download.prss.microsoft.com/dbazure/888969d5-f34g-4e03-ac9d-1f9786c66749/26100.1742.240906-0331.ge_release_svc_refresh_SERVER_EVAL_x64FRE_en-us.iso"
-$AzureLocal2505URL="http://aka.ms/hcireleaseimage/2505"
+#you should download latest image from Azure Portal, this is just an example
+$AzureLocal2509URL="http://aka.ms/hcireleaseimage/2509"
 
 #download
 Start-BitsTransfer -Source $WindowsServerEvalURL -Destination $env:userprofile\Downloads\
-Start-BitsTransfer -Source $AzureLocal2505URL -Destination $env:userprofile\Downloads\AzureLocal2505.iso
+Start-BitsTransfer -Source $AzureLocal2509URL -Destination $env:userprofile\Downloads\AzureLocal2509.iso
 
 ```
 
